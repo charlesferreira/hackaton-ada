@@ -1,0 +1,13 @@
+{
+  "hosting": {
+    "public": "dist/hackaton-ada",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  },
+  "remoteconfig": {
+    "template": "remoteconfig.template.json"
+  }
+}

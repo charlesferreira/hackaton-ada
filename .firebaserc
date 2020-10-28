@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "hackaton-ada-2021-2022": {
+      "hosting": {
+        "hackaton-ada": [
+          "hackaton-ada-2021-2022"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "hackaton-ada-2021-2022"
+  }
+}

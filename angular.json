@@ -118,8 +118,13 @@
               "devServerTarget": "hackaton-ada:serve:production"
             }
           }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {}
         }
       }
-    }},
+    }
+  },
   "defaultProject": "hackaton-ada"
 }

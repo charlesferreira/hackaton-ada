@@ -1,10 +1,14 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Atividade } from './model/atividade';
+import { AtividadeService } from './service/atividade.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  title = 'hackaton-ada';
+  atividade$ = this.service.current();
+
+  constructor(private service: AtividadeService) {}
 }
