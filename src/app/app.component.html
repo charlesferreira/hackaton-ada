@@ -1,11 +1,11 @@
-<div class="container mt-lg-5" *ngIf="atividade$ | async as atividade">
+<div class="container mt-4 mt-md-5" *ngIf="atividade$ | async as atividade">
   <header class="d-flex flex-column align-items-center justify-content-center">
     <h1 class="display-4 font-weight-bold">{{ atividade.nome }}</h1>
     <strong>Sábado 8h30 até 10h00</strong>
-    <p class="mt-5">Entregar atividade <a href="#">nesse link</a> até 10h</p>
+    <p class="mt-4 mt-md-5">Entregar atividade <a href="#">nesse link</a> até 10h</p>
   </header>
-  <main class="row mt-5">
-    <div class="col-4" *ngFor="let equipe of atividade.equipes; let i = index">
+  <main class="row">
+    <div class="col-12 col-md-6 col-lg-4 mt-4 mt-md-5" *ngFor="let equipe of atividade.equipes; let i = index">
       <div class="card">
         <div
           class="card-header text-white d-flex justify-content-between align-items-center"
