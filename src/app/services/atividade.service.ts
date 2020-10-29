@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { distinctUntilChanged, map } from 'rxjs/operators';
+import { map, shareReplay } from 'rxjs/operators';
 
 import { Atividade } from '../model/atividade';
 
@@ -14,7 +14,7 @@ export class AtividadeService {
       .valueChanges({ idField: 'id' })
       .pipe(
         map(atividades => atividades[0]),
-        distinctUntilChanged()
+        shareReplay()
       );
   }
 
