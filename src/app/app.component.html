@@ -1,8 +1,16 @@
 <div class="container mt-4 mt-md-5" *ngIf="atividade$ | async as atividade">
   <header class="d-flex flex-column align-items-center justify-content-center">
     <h1 class="display-4 font-weight-bold">{{ atividade.nome }}</h1>
-    <strong>Sábado 8h30 até 10h00</strong>
-    <p class="mt-4 mt-md-5">Entregar atividade <a href="#">nesse link</a> até 10h</p>
+    <strong>
+      {{ atividade.dataHoraInicio | date: 'EEEE' | titlecase }}
+      {{ atividade.dataHoraInicio | date: "H'h'mm" }}
+      até {{ atividade.dataHoraFim | date: "H'h'mm" }}
+    </strong>
+    <p class="mt-4 mt-md-5">
+      Entregar atividade
+      <a target="_blank" href="{{ atividade.linkEntrega }}">nesse link</a>
+      até {{ atividade.dataHoraFim | date: "H'h'mm" }}
+    </p>
   </header>
   <main class="row">
     <div class="col-12 col-md-6 col-lg-4 mt-4 mt-md-5" *ngFor="let equipe of atividade.equipes; let i = index">

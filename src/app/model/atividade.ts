@@ -1,6 +1,10 @@
 import { Equipe } from './equipe';
 
 export interface Atividade {
-  nome?: string;
+  ativa?: boolean;
+  dataHoraFim?: Date;
+  dataHoraInicio?: Date;
   equipes?: Equipe[];
+  linkEntrega?: string;
+  nome?: string;
 }
