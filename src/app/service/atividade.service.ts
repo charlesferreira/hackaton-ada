@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { map } from 'rxjs/operators';
+
 import { Atividade } from '../model/atividade';
 
 @Injectable({ providedIn: 'root' })
@@ -11,7 +12,7 @@ export class AtividadeService {
     this.firestore.collection('atividades').add(atividade);
   }
 
-  current() {
+  getCurrent() {
     return this.firestore
       .collection<Atividade>('atividades', ref => ref.where('ativa', '==', true))
       .valueChanges()
