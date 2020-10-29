@@ -13,9 +13,9 @@ export class AtividadeService {
 
   current() {
     return this.firestore
-      .collection<Atividade>('atividades', (ref) => ref.where('ativa', '==', true))
+      .collection<Atividade>('atividades', ref => ref.where('ativa', '==', true))
       .valueChanges()
-      .pipe(map((atividades) => atividades[0]));
+      .pipe(map(atividades => atividades[0]));
   }
 
   getAll() {

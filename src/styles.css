@@ -1,3 +1,29 @@
 .list-group-striped li:nth-child(even) {
   background: #f6f6f6;
 }
+
+.blinking {
+  animation: blink 2s ease infinite;
+}
+
+.card .fa-check {
+  animation: spin 0.5s ease-out forwards, fade-in 1s;
+}
+
+@keyframes blink {
+  25% {
+    opacity: 0;
+  }
+}
+
+@keyframes spin {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+}
