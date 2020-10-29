@@ -8,14 +8,17 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { environment } from './../environments/environment';
 import { AppComponent } from './app.component';
-import { PainelAtividadeAtualComponent } from './components/painel-atividade-atual/painel-atividade-atual.component';
+import { AppRoutingModule } from './app.routing';
+import { PainelAdminComponent } from './components/admin/painel-admin/painel-admin.component';
+import { PainelAtividadeAtualComponent } from './components/public/painel-atividade-atual/painel-atividade-atual.component';
 
 registerLocaleData(localeBr, 'pt');
 
 @NgModule({
-  declarations: [AppComponent, PainelAtividadeAtualComponent],
+  declarations: [AppComponent, PainelAtividadeAtualComponent, PainelAdminComponent],
   imports: [
     BrowserModule,
+    AppRoutingModule,
     NgbModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule,

@@ -10,8 +10,12 @@
   animation: spin 0.5s ease-out forwards, fade-in 1s;
 }
 
+.fade-in {
+  animation: fade-in 0.5s ease-in-out;
+}
+
 @keyframes blink {
-  25% {
+  33% {
     opacity: 0;
   }
 }
