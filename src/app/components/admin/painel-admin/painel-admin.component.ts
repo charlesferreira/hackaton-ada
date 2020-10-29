@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Atividade } from '@app/model/atividade';
 import { Equipe } from '@app/model/equipe';
-import { AtividadeService } from '@app/service/atividade.service';
+import { AtividadeService } from '@app/services/atividade.service';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -10,15 +10,18 @@ import { Observable } from 'rxjs';
   styleUrls: ['./painel-admin.component.css'],
 })
 export class PainelAdminComponent implements OnInit {
-  atividade$: Observable<Atividade>;
+  atividadeAtual$: Observable<Atividade>;
+  atividadesTodas$: Observable<Atividade[]>;
 
   constructor(private service: AtividadeService) {}
 
   ngOnInit(): void {
-    this.atividade$ = this.service.getCurrent();
+    this.atividadeAtual$ = this.service.getCurrent();
+    this.atividadesTodas$ = this.service.getAll();
   }
 
-  toggle(equipe: Equipe) {
+  alternarStatusEntrega(atividade: Atividade, equipe: Equipe) {
     equipe.entregue = !equipe.entregue;
+    this.service.update(atividade);
   }
 }

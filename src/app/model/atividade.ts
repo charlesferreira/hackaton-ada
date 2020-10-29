@@ -4,6 +4,7 @@ import { map, share } from 'rxjs/operators';
 import { Equipe } from './equipe';
 
 export interface Atividade {
+  id?: string;
   ativa?: boolean;
   dataHoraFim?: Date;
   dataHoraInicio?: Date;

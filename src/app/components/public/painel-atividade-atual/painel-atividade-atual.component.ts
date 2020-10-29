@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Atividade, getIconeAtividadePendente } from '@app/model/atividade';
-import { AtividadeService } from '@app/service/atividade.service';
+import { AtividadeService } from '@app/services/atividade.service';
 import { Observable } from 'rxjs';
 
 @Component({
