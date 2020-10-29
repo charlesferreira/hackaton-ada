@@ -1,0 +1,36 @@
+<div class="container mt-4 mt-md-5" *ngIf="atividade$ | async as atividade">
+  <header class="d-flex flex-column align-items-center justify-content-center">
+    <h1 class="display-4 font-weight-bold">{{ atividade.nome }}</h1>
+    <strong>
+      {{ atividade.dataHoraInicio | date: 'EEEE' | titlecase }}
+      {{ atividade.dataHoraInicio | date: "H'h'mm" }}
+      até {{ atividade.dataHoraFim | date: "H'h'mm" }}
+    </strong>
+    <p class="mt-4 mt-md-5">
+      Entregar a atividade
+      <a target="_blank" href="{{ atividade.linkEntrega }}">nesse link</a>
+      até {{ atividade.dataHoraFim | date: "H'h'mm" }}.
+    </p>
+  </header>
+  <main class="row">
+    <div class="col-12 col-md-6 col-lg-4 mt-4 mt-md-5" *ngFor="let equipe of atividade.equipes; let i = index">
+      <div class="card shadow">
+        <div
+          class="card-header text-white d-flex justify-content-between align-items-center"
+          [ngClass]="equipe.entregue ? 'bg-success' : 'bg-danger'"
+        >
+          <strong>Equipe {{ i + 1 }}</strong>
+          <small *ngIf="equipe.entregue; else iconePendente"><i class="fa fa-2x fa-check"></i></small>
+          <ng-template #iconePendente>
+            <small>
+              <i class="fa fa-2x" [ngClass]="classeIconeAtividadePendente$ | async"></i>
+            </small>
+          </ng-template>
+        </div>
+        <ul class="list-group list-group-flush list-group-striped">
+          <li class="list-group-item" *ngFor="let integrante of equipe.integrantes">{{ integrante }}</li>
+        </ul>
+      </div>
+    </div>
+  </main>
+</div>
