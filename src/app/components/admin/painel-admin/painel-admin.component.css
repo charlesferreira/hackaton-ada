@@ -1,3 +1,7 @@
 .list-group-item {
   height: 52px;
 }
+
+.form-group label {
+  font-weight: bold;
+}

@@ -19,11 +19,17 @@ export class AtividadeService {
   }
 
   getAll() {
-    return this.firestore.collection<Atividade>('atividades').valueChanges();
+    return this.firestore
+      .collection<Atividade>('atividades', ref => ref.orderBy('dataHoraInicio').orderBy('nome'))
+      .valueChanges();
   }
 
   add(atividade: Atividade) {
-    this.firestore.collection('atividades').add(atividade);
+    const id = this.firestore.createId();
+    this.firestore
+      .collection('atividades')
+      .doc(id)
+      .set({ ...atividade, id });
   }
 
   update(atividade: Atividade) {

@@ -3,8 +3,8 @@ import { Equipe } from './equipe';
 export interface Atividade {
   id?: string;
   ativa?: boolean;
-  dataHoraFim?: Date;
-  dataHoraInicio?: Date;
+  dataHoraFim?: string;
+  dataHoraInicio?: string;
   equipes?: Equipe[];
   linkEntrega?: string;
   nome?: string;
