@@ -1,49 +1,55 @@
-<header
-  class="d-flex flex-column align-items-center justify-content-center"
-  *ngIf="atividadeAtual$ | async as atividade"
->
-  <h1 class="display-4 font-weight-bold">
-    {{ atividade.nome }}
-    <ngb-progressbar
-      type="warning"
-      [value]="progressoAtividadeAtual$ | async"
-      [max]="1"
-      height=".5rem"
-    ></ngb-progressbar>
-  </h1>
-  <strong>
-    {{ atividade.dataHoraInicio | date: 'EEEE' | titlecase }}
-    {{ atividade.dataHoraInicio | date: "H'h'mm" }}
-    até {{ atividade.dataHoraFim | date: "H'h'mm" }}
-  </strong>
-</header>
+<ng-template #painelAdmin let-atividadeAtual>
+  <header class="d-flex flex-column align-items-center justify-content-center" *ngIf="atividadeAtual">
+    <h1 class="display-4 font-weight-bold">
+      {{ atividadeAtual.nome }}
+      <ngb-progressbar
+        type="warning"
+        [value]="progressoAtividadeAtual$ | async"
+        [max]="1"
+        height=".5rem"
+      ></ngb-progressbar>
+    </h1>
+    <strong>
+      {{ atividadeAtual.dataHoraInicio | date: 'EEEE' | titlecase }}
+      {{ atividadeAtual.dataHoraInicio | date: "H'h'mm" }}
+      até {{ atividadeAtual.dataHoraFim | date: "H'h'mm" }}
+    </strong>
+  </header>
 
-<div class="row mt-4 mt-md-5">
-  <div class="col-12 col-md-6 col-lg-4" *ngIf="atividadesTodas$ | async as atividades">
-    <h2>Atividades</h2>
-    <div class="list-group shadow mt-4">
-      <button
-        class="list-group-item list-group-item-action d-flex align-items-center justify-content-between"
-        *ngFor="let atividade of atividades"
-        [class.active]="atividade.id === (atividadeAtual$ | async)?.id"
-      >
-        <strong>{{ atividade.nome }}</strong>
-      </button>
+  <div class="row">
+    <div class="col-12 col-md-6 col-lg-4 mt-4 mt-md-5" *ngIf="atividadesTodas$ | async as atividades">
+      <h2>Atividades</h2>
+      <div class="list-group shadow mt-4">
+        <button
+          class="list-group-item list-group-item-action d-flex align-items-center justify-content-between"
+          *ngFor="let atividade of atividades"
+          [class.active]="atividade.id === atividadeAtual.id"
+        >
+          <strong>{{ atividade.nome }}</strong>
+          <i class="fa fa-2x" [ngClass]="atividade.id === atividadeAtual.id ? 'fa-toggle-on' : 'fa-toggle-off'"></i>
+          <!-- <i class="fa fa-2x fa-play-circle" *ngIf="atividade.id === atividadeAtual.id"></i> -->
+        </button>
+      </div>
+    </div>
+
+    <div class="col-12 col-md-6 col-lg-4 mt-4 mt-md-5" *ngIf="atividadeAtual">
+      <h2>Entregas</h2>
+      <div class="list-group shadow mt-4">
+        <button
+          class="list-group-item list-group-item-action d-flex align-items-center justify-content-between"
+          *ngFor="let equipe of atividadeAtual.equipes; let i = index"
+          [ngClass]="equipe.entregue ? 'bg-success text-white' : 'bg-light text-dark'"
+          (click)="alternarStatusEntrega(atividadeAtual, equipe)"
+        >
+          <strong>Equipe {{ i + 1 }}</strong>
+          <i class="fa fa-2x fa-fw" [ngClass]="equipe.entregue ? 'fa-check-square-o' : 'fa-square-o'"></i>
+        </button>
+      </div>
     </div>
   </div>
+</ng-template>
 
-  <div class="col-12 col-md-6 col-lg-4" *ngIf="atividadeAtual$ | async as atividadeAtual">
-    <h2>Entregas</h2>
-    <div class="list-group shadow mt-4">
-      <button
-        class="list-group-item list-group-item-action d-flex align-items-center justify-content-between"
-        *ngFor="let equipe of atividadeAtual.equipes; let i = index"
-        [ngClass]="equipe.entregue ? 'bg-success text-white' : 'bg-light text-dark'"
-        (click)="alternarStatusEntrega(atividadeAtual, equipe)"
-      >
-        <strong>Equipe {{ i + 1 }}</strong>
-        <i class="fa fa-2x fa-fw" [ngClass]="equipe.entregue ? 'fa-check-square-o' : 'fa-square-o'"></i>
-      </button>
-    </div>
-  </div>
-</div>
+<ng-template
+  [ngTemplateOutlet]="painelAdmin"
+  [ngTemplateOutletContext]="{ $implicit: atividadeAtual$ | async }"
+></ng-template>

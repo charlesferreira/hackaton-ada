@@ -19,7 +19,6 @@ export const getProgressoAtividade = (atividade$: Observable<Atividade>) => {
       const inicio = new Date(atividade.dataHoraInicio).getTime();
       const fim = new Date(atividade.dataHoraFim).getTime();
       const agora = Date.now();
-      console.log((agora - inicio) / (fim - inicio));
 
       return (agora - inicio) / (fim - inicio);
     })
