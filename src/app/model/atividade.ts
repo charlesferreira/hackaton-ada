@@ -5,6 +5,7 @@ export interface Atividade {
   ativa?: boolean;
   dataHoraFim?: string;
   dataHoraInicio?: string;
+  descricao?: string;
   equipes?: Equipe[];
   linkEntrega?: string;
   nome?: string;

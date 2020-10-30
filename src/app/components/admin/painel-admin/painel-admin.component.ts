@@ -20,6 +20,7 @@ export class PainelAdminComponent implements OnInit {
     nome: this.fb.control(''),
     dataHoraInicio: this.fb.control(''),
     dataHoraFim: this.fb.control(''),
+    descricao: this.fb.control(''),
     linkEntrega: this.fb.control(''),
   });
 

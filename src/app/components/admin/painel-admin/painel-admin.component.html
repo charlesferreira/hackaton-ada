@@ -1,84 +1,90 @@
-<ng-template #painelAdmin let-atividadeAtual>
-  <header class="d-flex flex-column align-items-center justify-content-center">
-    <h1 class="display-4 font-weight-bold">
-      {{ atividadeAtual?.nome || '...' }}
-      <ngb-progressbar
-        type="warning"
-        [value]="getProgressoAtividade(atividadeAtual)"
-        [max]="1"
-        height=".5rem"
-      ></ngb-progressbar>
-    </h1>
-    <strong *ngIf="!atividadeAtual">&nbsp;</strong>
-    <strong *ngIf="atividadeAtual">
-      {{ atividadeAtual.dataHoraInicio | date: 'EEEE' | titlecase }},
-      {{ atividadeAtual.dataHoraInicio | date: "H'h'mm" }}
-      às {{ atividadeAtual.dataHoraFim | date: "H'h'mm" }}
-    </strong>
-  </header>
+<div class="py-4 py-md-5">
+  <ng-template #painelAdmin let-atividadeAtual>
+    <header class="d-flex flex-column align-items-center justify-content-center">
+      <h1 class="display-4 font-weight-bold">
+        {{ atividadeAtual?.nome || '...' }}
+        <ngb-progressbar
+          type="warning"
+          [value]="getProgressoAtividade(atividadeAtual)"
+          [max]="1"
+          height=".5rem"
+        ></ngb-progressbar>
+      </h1>
+      <strong *ngIf="!atividadeAtual">&nbsp;</strong>
+      <strong *ngIf="atividadeAtual">
+        {{ atividadeAtual.dataHoraInicio | date: 'EEEE' | titlecase }},
+        {{ atividadeAtual.dataHoraInicio | date: "H'h'mm" }}
+        às {{ atividadeAtual.dataHoraFim | date: "H'h'mm" }}
+      </strong>
+    </header>
 
-  <div class="row">
-    <div class="col-12 col-md-6 col-lg-4 mt-5" *ngIf="atividadesTodas$ | async as atividades">
-      <h2>Atividades</h2>
-      <div class="list-group shadow mt-4">
-        <button
-          class="list-group-item list-group-item-action d-flex align-items-center justify-content-between"
-          *ngFor="let atividade of atividades"
-          [class.active]="atividade.id === atividadeAtual?.id"
-          (click)="alternarAtividadeAtual(atividadeAtual, atividade)"
-        >
-          <strong>{{ atividade.nome }}</strong>
-          <em>{{ atividade.dataHoraInicio | date: 'EEEE' | titlecase }}</em>
-          <i class="fa fa-2x" [ngClass]="atividade.id === atividadeAtual?.id ? 'fa-toggle-on' : 'fa-toggle-off'"></i>
-        </button>
-      </div>
-    </div>
-
-    <div class="col-12 col-md-6 col-lg-4 mt-5" *ngIf="atividadeAtual">
-      <h2>Entregas</h2>
-      <div class="list-group shadow mt-4">
-        <button
-          class="list-group-item list-group-item-action d-flex align-items-center justify-content-between"
-          *ngFor="let equipe of atividadeAtual.equipes; let i = index"
-          [ngClass]="equipe.entregue ? 'bg-success text-white' : 'text-dark'"
-          (click)="alternarStatusEntrega(atividadeAtual, equipe)"
-        >
-          <strong>Equipe {{ i + 1 }}</strong>
-          <i class="fa fa-2x fa-fw" [ngClass]="equipe.entregue ? 'fa-check-square-o' : 'fa-square-o'"></i>
-        </button>
-      </div>
-    </div>
-
-    <div class="col-12 col-md-6 col-lg-4 mt-5" *ngIf="atividadeAtual">
-      <h2>Configurações</h2>
-      <div class="card shadow mt-4">
-        <div class="card-body" [formGroup]="configuracoesForm">
-          <div class="form-group">
-            <label for="nome">Nome da atividade</label>
-            <input type="text" id="nome" class="form-control" formControlName="nome" />
-          </div>
-          <div class="form-group">
-            <label for="dataHoraInicio">Data/hora início</label>
-            <input type="text" id="dataHoraInicio" class="form-control" formControlName="dataHoraInicio" />
-          </div>
-          <div class="form-group">
-            <label for="dataHoraFim">Data/hora término</label>
-            <input type="text" id="dataHoraFim" class="form-control" formControlName="dataHoraFim" />
-          </div>
-          <div class="form-group">
-            <label for="linkEntrega">Link de entrega</label>
-            <input type="text" id="linkEntrega" class="form-control" formControlName="linkEntrega" />
-          </div>
-          <button type="submit" class="btn btn-primary" (click)="salvarAlteracoes(atividadeAtual)">
-            Salvar alterações
+    <div class="row">
+      <div class="col-12 col-md-6 col-lg-4 mt-5" *ngIf="atividadesTodas$ | async as atividades">
+        <h2>Atividades</h2>
+        <div class="list-group shadow mt-4">
+          <button
+            class="list-group-item list-group-item-action d-flex align-items-center justify-content-between"
+            *ngFor="let atividade of atividades"
+            [class.active]="atividade.id === atividadeAtual?.id"
+            (click)="alternarAtividadeAtual(atividadeAtual, atividade)"
+          >
+            <strong>{{ atividade.nome }}</strong>
+            <em>{{ atividade.dataHoraInicio | date: 'EEEE' | titlecase }}</em>
+            <i class="fa fa-2x" [ngClass]="atividade.id === atividadeAtual?.id ? 'fa-toggle-on' : 'fa-toggle-off'"></i>
           </button>
         </div>
       </div>
-    </div>
-  </div>
-</ng-template>
 
-<ng-template
-  [ngTemplateOutlet]="painelAdmin"
-  [ngTemplateOutletContext]="{ $implicit: atividadeAtual$ | async }"
-></ng-template>
+      <div class="col-12 col-md-6 col-lg-4 mt-5" *ngIf="atividadeAtual">
+        <h2>Entregas</h2>
+        <div class="list-group shadow mt-4">
+          <button
+            class="list-group-item list-group-item-action d-flex align-items-center justify-content-between"
+            *ngFor="let equipe of atividadeAtual.equipes; let i = index"
+            [ngClass]="equipe.entregue ? 'bg-success text-white' : 'text-dark'"
+            (click)="alternarStatusEntrega(atividadeAtual, equipe)"
+          >
+            <strong>Equipe {{ i + 1 }}</strong>
+            <i class="fa fa-2x fa-fw" [ngClass]="equipe.entregue ? 'fa-check-square-o' : 'fa-square-o'"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-6 col-lg-4 mt-5" *ngIf="atividadeAtual">
+        <h2>Configurações</h2>
+        <div class="card shadow mt-4">
+          <div class="card-body" [formGroup]="configuracoesForm">
+            <div class="form-group">
+              <label for="nome">Nome da atividade</label>
+              <input type="text" id="nome" class="form-control" formControlName="nome" />
+            </div>
+            <div class="form-group">
+              <label for="descricao">Descrição</label>
+              <textarea rows="4" type="text" id="descricao" class="form-control" formControlName="descricao"></textarea>
+            </div>
+            <div class="form-group">
+              <label for="dataHoraInicio">Data/hora início</label>
+              <input type="text" id="dataHoraInicio" class="form-control" formControlName="dataHoraInicio" />
+            </div>
+            <div class="form-group">
+              <label for="dataHoraFim">Data/hora término</label>
+              <input type="text" id="dataHoraFim" class="form-control" formControlName="dataHoraFim" />
+            </div>
+            <div class="form-group">
+              <label for="linkEntrega">Link de entrega</label>
+              <input type="text" id="linkEntrega" class="form-control" formControlName="linkEntrega" />
+            </div>
+            <button type="submit" class="btn btn-primary" (click)="salvarAlteracoes(atividadeAtual)">
+              Salvar alterações
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template
+    [ngTemplateOutlet]="painelAdmin"
+    [ngTemplateOutletContext]="{ $implicit: atividadeAtual$ | async }"
+  ></ng-template>
+</div>

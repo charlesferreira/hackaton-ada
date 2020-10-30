@@ -1,3 +1,7 @@
+.fullheight {
+  height: 100vh;
+}
+
 .list-group-striped li:nth-child(even) {
   background: #f6f6f6;
 }
