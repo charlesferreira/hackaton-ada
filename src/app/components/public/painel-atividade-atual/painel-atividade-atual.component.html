@@ -1,6 +1,14 @@
 <ng-container *ngIf="atividade$ | async as atividade; else aguardando">
   <header class="d-flex flex-column align-items-center justify-content-center">
-    <h1 class="display-4 font-weight-bold">{{ atividade.nome }}</h1>
+    <h1 class="display-4 font-weight-bold">
+      {{ atividade.nome }}
+      <ngb-progressbar
+        type="warning"
+        [value]="getProgressoAtividade(atividade)"
+        [max]="1"
+        height=".5rem"
+      ></ngb-progressbar>
+    </h1>
     <strong>
       {{ atividade.dataHoraInicio | date: 'EEEE' | titlecase }},
       {{ atividade.dataHoraInicio | date: "H'h'mm" }}
@@ -23,7 +31,7 @@
           <small *ngIf="equipe.entregue; else iconePendente"><i class="fa fa-2x fa-check"></i></small>
           <ng-template #iconePendente>
             <small>
-              <i class="fa fa-2x" [ngClass]="classeIconeAtividadePendente$ | async"></i>
+              <i class="fa fa-2x" [ngClass]="getIconeAtividadePendente(atividade)"></i>
             </small>
           </ng-template>
         </div>

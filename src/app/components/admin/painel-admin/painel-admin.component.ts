@@ -4,8 +4,8 @@ import { Atividade } from '@app/model/atividade';
 import { Equipe } from '@app/model/equipe';
 import { AtividadeService } from '@app/services/atividade.service';
 import { getProgressoAtividade } from '@app/utils/atividade';
-import { Observable, timer } from 'rxjs';
-import { filter, switchMap, take } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { filter, take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-painel-admin',
@@ -15,7 +15,6 @@ import { filter, switchMap, take } from 'rxjs/operators';
 export class PainelAdminComponent implements OnInit {
   atividadeAtual$: Observable<Atividade>;
   atividadesTodas$: Observable<Atividade[]>;
-  progressoAtividadeAtual$: Observable<number>;
 
   configuracoesForm = this.fb.group({
     nome: this.fb.control(''),
@@ -24,12 +23,13 @@ export class PainelAdminComponent implements OnInit {
     linkEntrega: this.fb.control(''),
   });
 
+  getProgressoAtividade = getProgressoAtividade;
+
   constructor(private service: AtividadeService, private fb: FormBuilder) {}
 
   ngOnInit(): void {
     this.atividadeAtual$ = this.service.getCurrent();
     this.atividadesTodas$ = this.service.getAll();
-    this.progressoAtividadeAtual$ = timer(0, 1000).pipe(switchMap(() => getProgressoAtividade(this.atividadeAtual$)));
     // criarAtividades(this.service);
 
     this.atividadeAtual$

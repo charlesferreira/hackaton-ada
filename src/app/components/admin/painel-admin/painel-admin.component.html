@@ -4,7 +4,7 @@
       {{ atividadeAtual?.nome || '...' }}
       <ngb-progressbar
         type="warning"
-        [value]="progressoAtividadeAtual$ | async"
+        [value]="getProgressoAtividade(atividadeAtual)"
         [max]="1"
         height=".5rem"
       ></ngb-progressbar>
