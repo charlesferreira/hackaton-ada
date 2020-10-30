@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Atividade, getProgressoAtividade } from '@app/model/atividade';
+import { Atividade } from '@app/model/atividade';
 import { Equipe } from '@app/model/equipe';
 import { AtividadeService } from '@app/services/atividade.service';
+import { getProgressoAtividade } from '@app/utils/atividade';
 import { Observable, timer } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
@@ -26,5 +27,13 @@ export class PainelAdminComponent implements OnInit {
   alternarStatusEntrega(atividade: Atividade, equipe: Equipe) {
     equipe.entregue = !equipe.entregue;
     this.service.update(atividade);
+  }
+
+  alternarAtividadeAtual(atividadeAnterior: Atividade, novaAtividade: Atividade) {
+    this.service.update({ ...novaAtividade, ativa: true });
+
+    if (atividadeAnterior) {
+      this.service.update({ ...atividadeAnterior, ativa: false });
+    }
   }
 }
