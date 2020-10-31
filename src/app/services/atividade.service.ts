@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { map, shareReplay } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 import { Atividade } from '../model/atividade';
 
@@ -12,10 +12,7 @@ export class AtividadeService {
     return this.firestore
       .collection<Atividade>('atividades', ref => ref.where('ativa', '==', true))
       .valueChanges({ idField: 'id' })
-      .pipe(
-        map(atividades => atividades[0]),
-        shareReplay()
-      );
+      .pipe(map(atividades => atividades[0]));
   }
 
   getAll() {
@@ -34,5 +31,9 @@ export class AtividadeService {
 
   update(atividade: Atividade) {
     this.firestore.collection('atividades').doc(atividade.id).update(atividade);
+  }
+
+  delete(atividade: Atividade) {
+    this.firestore.collection('atividades').doc(atividade.id).delete();
   }
 }

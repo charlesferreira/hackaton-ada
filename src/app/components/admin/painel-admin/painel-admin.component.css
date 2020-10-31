@@ -5,3 +5,7 @@
 .form-group label {
   font-weight: bold;
 }
+
+.cursor-pointer {
+  cursor: pointer;
+}

@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { AngularFireAuth } from '@angular/fire/auth';
 import { FormBuilder } from '@angular/forms';
 import { Atividade } from '@app/model/atividade';
 import { Equipe } from '@app/model/equipe';
 import { AtividadeService } from '@app/services/atividade.service';
 import { getProgressoAtividade } from '@app/utils/atividade';
-import { Observable } from 'rxjs';
-import { filter, take } from 'rxjs/operators';
+import { Observable, timer } from 'rxjs';
+import { map, take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-painel-admin',
@@ -13,8 +14,11 @@ import { filter, take } from 'rxjs/operators';
   styleUrls: ['./painel-admin.component.css'],
 })
 export class PainelAdminComponent implements OnInit {
-  atividadeAtual$: Observable<Atividade>;
+  atividadeAtiva$: Observable<Atividade>;
   atividadesTodas$: Observable<Atividade[]>;
+  progressoAtividade$: Observable<number>;
+
+  atividadeEmEdicao: Atividade;
 
   configuracoesForm = this.fb.group({
     nome: this.fb.control(''),
@@ -24,21 +28,15 @@ export class PainelAdminComponent implements OnInit {
     linkEntrega: this.fb.control(''),
   });
 
-  getProgressoAtividade = getProgressoAtividade;
-
-  constructor(private service: AtividadeService, private fb: FormBuilder) {}
+  constructor(private service: AtividadeService, private fb: FormBuilder, public auth: AngularFireAuth) {}
 
   ngOnInit(): void {
-    this.atividadeAtual$ = this.service.getCurrent();
+    this.atividadeAtiva$ = this.service.getCurrent();
     this.atividadesTodas$ = this.service.getAll();
-    // criarAtividades(this.service);
 
-    this.atividadeAtual$
-      .pipe(
-        filter(a => !!a),
-        take(1)
-      )
-      .subscribe(atividade => this.configuracoesForm.patchValue({ ...atividade }));
+    this.atividadeAtiva$.pipe(take(1)).subscribe(atividade => this.editarAtividade(atividade));
+
+    this.progressoAtividade$ = timer(0, 1000).pipe(map(_ => getProgressoAtividade(this.atividadeEmEdicao)));
   }
 
   alternarStatusEntrega(atividade: Atividade, equipe: Equipe) {
@@ -46,17 +44,30 @@ export class PainelAdminComponent implements OnInit {
     this.service.update(atividade);
   }
 
-  alternarAtividadeAtual(atividadeAnterior: Atividade, novaAtividade: Atividade) {
-    this.service.update({ ...novaAtividade, ativa: true });
-
-    if (atividadeAnterior) {
-      this.service.update({ ...atividadeAnterior, ativa: false });
-    }
-
-    this.configuracoesForm.patchValue({ ...novaAtividade });
+  editarAtividade(atividade: Atividade) {
+    this.configuracoesForm.patchValue({ ...atividade });
+    this.atividadeEmEdicao = atividade;
   }
 
-  salvarAlteracoes(atividadeAtual: Atividade) {
+  definirAtividadeAtiva(novaAtividade: Atividade) {
+    this.atividadeAtiva$.pipe(take(1)).subscribe(atividadeAnterior => {
+      this.service.update({ ...novaAtividade, ativa: true });
+
+      if (atividadeAnterior) {
+        this.service.update({ ...atividadeAnterior, ativa: false });
+      }
+    });
+  }
+
+  salvar(atividadeAtual: Atividade) {
     this.service.update({ ...atividadeAtual, ...this.configuracoesForm.value });
+  }
+
+  duplicar(atividadeAtual: Atividade) {
+    this.service.add({ ...atividadeAtual, ...this.configuracoesForm.value });
+  }
+
+  excluir(atividadeAtual: Atividade) {
+    this.service.delete(atividadeAtual);
   }
 }

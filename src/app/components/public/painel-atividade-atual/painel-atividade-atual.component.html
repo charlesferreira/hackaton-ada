@@ -5,7 +5,7 @@
         {{ atividade.nome }}
         <ngb-progressbar
           type="warning"
-          [value]="getProgressoAtividade(atividade)"
+          [value]="progressoAtividade$ | async"
           [max]="1"
           height=".5rem"
         ></ngb-progressbar>
@@ -35,7 +35,7 @@
             <small *ngIf="equipe.entregue; else iconePendente"><i class="fa fa-2x fa-check"></i></small>
             <ng-template #iconePendente>
               <small>
-                <i class="fa fa-2x" [ngClass]="getIconeAtividadePendente(atividade)"></i>
+                <i class="fa fa-2x" [ngClass]="iconeAtividadePendente$ | async"></i>
               </small>
             </ng-template>
           </div>
@@ -50,8 +50,8 @@
 
 <ng-template #aguardando>
   <header class="d-flex flex-column align-items-center justify-content-center fullheight">
-    <h2 class="display-4 font-weight-bold text-center">Hackaton ADA</h2>
+    <h2 class="display-4 font-weight-bold text-center">Hackaton 2021-2022</h2>
     <p class="lead mt-2 text-center">31/out &mdash; 01/nov de 2020</p>
-    <p class="mt-5 text-center">Sem atividade momento.</p>
+    <p class="mt-5 text-center">Sem atividade no momento.</p>
   </header>
 </ng-template>
