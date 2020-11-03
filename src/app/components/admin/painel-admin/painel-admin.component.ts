@@ -60,7 +60,8 @@ export class PainelAdminComponent implements OnInit {
   }
 
   salvar(atividadeAtual: Atividade) {
-    this.service.update({ ...atividadeAtual, ...this.configuracoesForm.value });
+    this.atividadeEmEdicao = { ...atividadeAtual, ...this.configuracoesForm.value };
+    this.service.update(this.atividadeEmEdicao);
   }
 
   duplicar(atividadeAtual: Atividade) {

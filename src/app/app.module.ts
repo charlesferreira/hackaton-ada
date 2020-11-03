@@ -11,13 +11,20 @@ import { environment } from './../environments/environment';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.routing';
 import { PainelAdminComponent } from './components/admin/painel-admin/painel-admin.component';
+import { DataAtividadeComponent } from './components/common/data-atividade/data-atividade.component';
 import { LoginComponent } from './components/login/login.component';
 import { PainelAtividadeAtualComponent } from './components/public/painel-atividade-atual/painel-atividade-atual.component';
 
 registerLocaleData(localeBr, 'pt');
 
 @NgModule({
-  declarations: [AppComponent, PainelAtividadeAtualComponent, PainelAdminComponent, LoginComponent],
+  declarations: [
+    AppComponent,
+    PainelAtividadeAtualComponent,
+    PainelAdminComponent,
+    LoginComponent,
+    DataAtividadeComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,

@@ -1,0 +1,11 @@
+<strong *ngIf="atividade; else semAtividade">
+  <ng-container *ngIf="iniciaETerminaNoMesmoDia; else diasDiferentes">
+    {{ atividade.dataHoraInicio | date: "dd/MM/yyyy, H'h'mm" }} às
+    {{ atividade.dataHoraFim | date: "H'h'mm" }}
+  </ng-container>
+  <ng-template #diasDiferentes>
+    {{ atividade.dataHoraInicio | date: "dd/MM/yyyy, H'h'mm" }} até
+    {{ atividade.dataHoraFim | date: "dd/MM/yyyy, H'h'mm" }}
+  </ng-template>
+</strong>
+<ng-template #semAtividade>...</ng-template>

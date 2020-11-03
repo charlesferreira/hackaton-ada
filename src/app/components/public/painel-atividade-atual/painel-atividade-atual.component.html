@@ -10,16 +10,7 @@
           height=".5rem"
         ></ngb-progressbar>
       </h1>
-      <strong>
-        <ng-container *ngIf="iniciaETerminaNoMesmoDia$ | async; else diasDiferentes">
-          {{ atividade.dataHoraInicio | date: "dd/MM/yyyy, H'h'mm" }} às
-          {{ atividade.dataHoraFim | date: "H'h'mm" }}
-        </ng-container>
-        <ng-template #diasDiferentes>
-          {{ atividade.dataHoraInicio | date: "dd/MM/yyyy, H'h'mm" }} até
-          {{ atividade.dataHoraFim | date: "dd/MM/yyyy, H'h'mm" }}
-        </ng-template>
-      </strong>
+      <app-data-atividade [atividade]="atividade" class="mt-2"></app-data-atividade>
       <p class="mt-4 mt-md-5 lead" *ngIf="atividade.descricao">
         {{ atividade.descricao }}
       </p>

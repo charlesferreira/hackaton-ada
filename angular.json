@@ -22,7 +22,7 @@
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": ["node_modules/bootstrap/dist/css/bootstrap.min.css", "src/styles.css"],
             "scripts": [],
-            "allowedCommonJsDependencies": ["@firebase/auth", "@angular/fire"]
+            "allowedCommonJsDependencies": ["@firebase/auth", "@angular/fire", "firebase/app"]
           },
           "configurations": {
             "production": {

@@ -5,11 +5,7 @@
       <ngb-progressbar type="warning" [value]="progressoAtividade$ | async" [max]="1" height=".5rem"></ngb-progressbar>
     </h1>
     <strong *ngIf="!atividadeEmEdicao">&nbsp;</strong>
-    <strong *ngIf="atividadeEmEdicao">
-      {{ atividadeEmEdicao.dataHoraInicio | date: 'EEEE' | titlecase }},
-      {{ atividadeEmEdicao.dataHoraInicio | date: "H'h'mm" }}
-      às {{ atividadeEmEdicao.dataHoraFim | date: "H'h'mm" }}
-    </strong>
+    <app-data-atividade [atividade]="atividadeEmEdicao" class="mt-2"></app-data-atividade>
   </header>
 
   <div class="row">
