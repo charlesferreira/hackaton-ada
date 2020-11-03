@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Atividade } from '@app/model/atividade';
 import { AtividadeService } from '@app/services/atividade.service';
 import { getIconeAtividadePendente, getProgressoAtividade } from '@app/utils/atividade';
-import { combineLatest, Observable, timer } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { isSameDay } from '@app/utils/date';
+import { combineLatest, Observable, Subject, timer } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-painel-atividade-atual',
@@ -15,10 +16,14 @@ export class PainelAtividadeAtualComponent implements OnInit {
   iconeAtividadePendente$: Observable<string>;
   progressoAtividade$: Observable<number>;
 
+  readonly iniciaETerminaNoMesmoDia$ = new Subject<boolean>();
+
   constructor(private service: AtividadeService) {}
 
   ngOnInit() {
-    this.atividade$ = this.service.getCurrent();
+    this.atividade$ = this.service
+      .getCurrent()
+      .pipe(tap(a => this.iniciaETerminaNoMesmoDia$.next(isSameDay(a.dataHoraInicio, a.dataHoraFim))));
 
     this.iconeAtividadePendente$ = combineLatest([timer(0, 10000), this.atividade$]).pipe(
       map(([_, atividade]) => getIconeAtividadePendente(atividade))
